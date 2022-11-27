@@ -6,16 +6,16 @@ database:
   host: 'localhost'
   port: 3306
   username: 'root'
-  password: 'password'
+  password: 'jms12jms!@'
   database: 'sideproject'
   synchronize: false
   logging: true
 
 jwt:
-  accessSecret: 'jms_key'
+  accessSecret: 'access_key'
   accessExpriesIn: 180
-  refreshSecret: 'jms_refresh_key'
+  refreshSecret: 'refresh_key'
   refreshExpriesIn: 3600
 
 cryptoJS:
-  encryptSecret: 'jms_refresh_encrypt_key'
+  encryptSecret: 'refresh_encrypt_key'
