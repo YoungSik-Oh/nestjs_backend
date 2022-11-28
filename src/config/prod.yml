@@ -1,6 +1,10 @@
 server:
   port: 3010
 
+logger:
+  filename: 'someone'
+  dirname: '/Users/youngsik/feature/someone_project/backend/someone/logs/console'
+
 database:
   type: 'mysql'
   host: 'localhost'
@@ -10,6 +14,9 @@ database:
   database: 'sideproject'
   synchronize: false
   logging: true
+  logger:
+    filename: 'someone'
+    dirname: '/Users/youngsik/feature/someone_project/backend/someone/logs/query'
 
 jwt:
   accessSecret: 'access_key'
