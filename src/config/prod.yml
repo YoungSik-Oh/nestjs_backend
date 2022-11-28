@@ -17,6 +17,10 @@ database:
   logger:
     filename: 'someone'
     dirname: '/Users/youngsik/feature/someone_project/backend/someone/logs/query'
+    
+resource:
+  savePath: '/Users/youngsik/feature/someone_project/backend/someone/public'
+  baseUrl: '/public'
 
 jwt:
   accessSecret: 'access_key'
