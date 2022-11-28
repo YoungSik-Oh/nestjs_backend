@@ -5,6 +5,7 @@ import { DatabaseConfig } from './@database/database.config';
 import { DatabaseModule } from './@database/database.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { UserModule } from './user/user.module';
 import config from './config/config';
 
 @Module({
@@ -15,6 +16,7 @@ import config from './config/config';
       useClass: DatabaseConfig,
     }),
     DatabaseModule,
+    UserModule,
   ],
   controllers: [AppController],
   providers: [AppService],

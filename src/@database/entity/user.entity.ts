@@ -2,9 +2,6 @@ import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
 
 @Entity({
   name: 'USER',
-  orderBy: {
-    id: 'DESC',
-  },
 })
 export class User {
   @PrimaryColumn({ name: 'UUID' })
@@ -34,7 +31,6 @@ export class User {
     name: 'PASSWORD',
     nullable: false,
     type: 'varchar',
-    length: 50,
     comment: '비밀번호',
   })
   pwd: string;
