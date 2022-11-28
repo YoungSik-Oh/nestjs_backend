@@ -6,6 +6,7 @@ import { DatabaseModule } from './@database/database.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { BoardModule } from './board/board.module';
 import config from './config/config';
 
 @Module({
@@ -17,6 +18,7 @@ import config from './config/config';
     }),
     DatabaseModule,
     UserModule,
+    BoardModule,
   ],
   controllers: [AppController],
   providers: [AppService],

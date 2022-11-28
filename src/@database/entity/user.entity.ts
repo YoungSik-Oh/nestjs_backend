@@ -1,4 +1,5 @@
-import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
+import { Column, Entity, Generated, OneToMany, PrimaryColumn } from 'typeorm';
+import { Board } from './board.entity';
 
 @Entity({
   name: 'USER',
@@ -71,4 +72,9 @@ export class User {
     comment: '수정 일자',
   })
   updateAt: Date;
+
+  @OneToMany(() => Board, (board) => board.writer, {
+    lazy: true,
+  })
+  boards: Board[];
 }
