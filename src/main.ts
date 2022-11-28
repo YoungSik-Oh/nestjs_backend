@@ -1,4 +1,4 @@
-import { ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
@@ -6,6 +6,7 @@ import { AccessLogInterceptor } from './interceptor/access_log_interceptor';
 import { FileConsoleLogger } from './logger/file_console_logger';
 
 async function bootstrap() {
+  const logger = new Logger('bootstrap');
   const app = await NestFactory.create(AppModule);
   const config = app.get(ConfigService);
   const port = config.get('server.port');
@@ -34,6 +35,6 @@ async function bootstrap() {
   );
 
   await app.listen(port);
-  console.log(`connect Server port : ${port}`);
+  logger.log(`connect Server port : ${port}`);
 }
 bootstrap();
