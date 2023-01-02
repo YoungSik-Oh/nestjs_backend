@@ -1,4 +1,4 @@
-import { Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MulterOptionsFactory } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -23,7 +23,7 @@ type Limits = {
   /** For multipart forms, the max number of header key=> value pairs to parse Default: 2000(same as node's http). */
   headerPairs?: number;
 };
-
+@Injectable()
 export class MulterConfig implements MulterOptionsFactory {
   private readonly logger = new Logger(MulterConfig.name);
 
