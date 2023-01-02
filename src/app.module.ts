@@ -7,6 +7,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { BoardModule } from './board/board.module';
+import { CompanyinfoModule } from './companyinfo/companyinfo.module';
 import config from './config/config';
 
 @Module({
@@ -19,6 +20,7 @@ import config from './config/config';
     DatabaseModule,
     UserModule,
     BoardModule,
+    CompanyinfoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
