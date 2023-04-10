@@ -3,7 +3,7 @@ server:
 
 logger:
   filename: 'someone'
-  dirname: '/Users/youngsik/feature/someone_project/backend/someone/logs/console'
+  dirname: '/logs/dev/console'
 
 database:
   type: 'mysql'
@@ -16,12 +16,11 @@ database:
   logging: true
   logger:
     filename: 'someone'
-    dirname: '/Users/youngsik/feature/someone_project/backend/someone/logs/query'
+    dirname: '/logs/dev/query'
 
 resource:
-  savePath: '/Users/youngsik/feature/someone_project/backend/someone/public'
+  savePath: '/public'
   baseUrl: '/public'
-
 
 jwt:
   accessSecret: 'access_key'

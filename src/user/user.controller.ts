@@ -29,7 +29,7 @@ export class UserController {
   }
 
   @Get('/:uuid')
-  findOneUse(@Param('uuid') uuid: string) {
+  findOneUser(@Param('uuid') uuid: string) {
     return this.userService.fildOneUser(uuid);
   }
 
