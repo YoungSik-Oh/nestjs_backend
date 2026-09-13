@@ -21,8 +21,8 @@ async function bootstrap() {
 
   app.useLogger(
     new FileConsoleLogger({
-      filename: config.get('logger.filename'),
-      dirname: process.cwd() + config.get('logger.dirname'),
+      filename: config.getOrThrow<string>('logger.filename'),
+      dirname: process.cwd() + config.getOrThrow<string>('logger.dirname'),
     }),
   );
 

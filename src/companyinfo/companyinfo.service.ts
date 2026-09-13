@@ -54,7 +54,7 @@ export class CompanyinfoService {
       throw new BadRequestException(`업데이트에 실패하였습니다.`);
     }
 
-    return this.companyInfoRepository.findOne({
+    return this.companyInfoRepository.findOneOrFail({
       where: {
         uuid: updateData.uuid,
       },

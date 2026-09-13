@@ -141,3 +141,16 @@
   - 이유: MySQL에서는 uuid PK가 varchar(36)이라 varchar FK와 호환됐지만, PostgreSQL에서는 PK가 네이티브 `uuid` 타입이 되면서 relation FK 컬럼(varchar 추론)과 타입 불일치로 FK 생성 실패. 표준 데코레이터로 교체하니 `writer_id`도 `uuid`로 올바르게 생성됨.
 - Migration 체계 도입: `src/@database/typeorm.config.ts`(CLI 전용 DataSource, dotenv 직접 의존성 추가) + `migration:generate/run/revert` 스크립트. 초기 마이그레이션 `Init` 생성·실행 성공 (uuid-ossp 확장 자동 설치, `uuid_generate_v4()` default).
 - 게이트: 테이블 4개(USER/BOARD/COMPANY_INFO/migrations) 확인 ✅ / lint 0 errors ✅ / build ✅ / test 기준선 동일 ✅ / PostgreSQL 실행 — User C·R·U·D ✅, Relation(`writerId`) ✅, timestamptz 날짜 정상 반환 ✅, pagination ✅.
+
+## Phase 10 — TypeScript strict 전환 (2026-09-13)
+
+- `strict: true` + `forceConsistentCasingInFileNames: true` 적용, 기존의 개별 완화 옵션(strictNullChecks/noImplicitAny/strictBindCallApply false) 제거.
+- 수정 내역:
+  - Entity·DTO 프로퍼티에 definite assignment(`!`) 적용 (TypeORM/class-validator 표준 관행), `@IsOptional` 필드는 `?`로.
+  - `BoardRegistVo.writerID: any` → `string` (불필요한 any 제거). 이에 따라 `board.service` `writer: writerID` → `writer: { uuid: writerID }` (원래 타입 불일치였던 기존 문제 8 해결).
+  - `parseInt(process.env.X ?? '', 10)` 패턴으로 undefined 처리, `main.ts`는 `getOrThrow<string>` 사용.
+  - `config.multer.ts` fileFilter 파라미터 명시적 타입.
+  - `board.service.insertBoard` files 파라미터 optional화 (controller와 시그니처 일치).
+  - `companyinfo.service` 마지막 조회 `findOne` → `findOneOrFail` (null 반환 타입 해소).
+  - `@types/bcryptjs` 추가.
+- 게이트: `tsc --noEmit` 0 errors ✅ / lint 0 errors ✅ / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD·Board Relation 쓰기 ✅.

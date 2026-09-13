@@ -6,7 +6,7 @@ import { Board } from './board.entity';
 })
 export class User {
   @PrimaryGeneratedColumn('uuid', { name: 'UUID' })
-  uuid: string;
+  uuid!: string;
 
   @Column({
     name: 'USER_ID',
@@ -16,7 +16,7 @@ export class User {
     length: 50,
     comment: '유저 아이디',
   })
-  userID: string;
+  userID!: string;
 
   @Column({
     name: 'NAME',
@@ -25,7 +25,7 @@ export class User {
     length: 50,
     comment: '유저 이름',
   })
-  name: string;
+  name!: string;
 
   @Column({
     name: 'PASSWORD',
@@ -33,7 +33,7 @@ export class User {
     type: 'varchar',
     comment: '비밀번호',
   })
-  pwd: string;
+  pwd!: string;
 
   @Column({
     name: 'EMAIL',
@@ -42,7 +42,7 @@ export class User {
     length: 100,
     comment: '이메일',
   })
-  email: string;
+  email!: string;
 
   @Column({
     name: 'PHONE',
@@ -51,10 +51,10 @@ export class User {
     length: 20,
     comment: '휴대전화번호',
   })
-  phone: string;
+  phone!: string;
 
   @Column({ name: 'AUTHORITY', length: 20, default: '', comment: '권한' })
-  authority: string;
+  authority!: string;
 
   @Column({
     name: 'REGIST_AT',
@@ -62,7 +62,7 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
     comment: '등록 일자',
   })
-  registAt: Date;
+  registAt!: Date;
 
   @Column({
     name: 'UPDATE_AT',
@@ -70,10 +70,10 @@ export class User {
     default: () => 'CURRENT_TIMESTAMP',
     comment: '수정 일자',
   })
-  updateAt: Date;
+  updateAt!: Date;
 
   @OneToMany(() => Board, (board) => board.writer, {
     lazy: true,
   })
-  boards: Board[];
+  boards!: Board[];
 }

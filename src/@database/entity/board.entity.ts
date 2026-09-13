@@ -13,7 +13,7 @@ export type BaordCategory = 'notice' | 'qna';
 @Entity({ name: 'BOARD' })
 export class Board {
   @PrimaryGeneratedColumn('uuid', { name: 'UUID' })
-  uuid: string;
+  uuid!: string;
 
   @Column({
     name: 'CATEGORY',
@@ -22,7 +22,7 @@ export class Board {
     length: 30,
     comment: '게시판 카테고리',
   })
-  category: BaordCategory;
+  category!: BaordCategory;
 
   @Column({
     name: 'TITLE',
@@ -30,16 +30,16 @@ export class Board {
     nullable: false,
     comment: '게시글 제목',
   })
-  title: string;
+  title!: string;
 
   @Column({ name: 'CONTENTS', type: 'text', comment: '게시글 내용' })
-  contents: string;
+  contents!: string;
 
   @Column({ name: 'HIT', type: 'bigint', comment: '조회수' })
-  hit: number;
+  hit!: number;
 
   @Column({ name: 'FILE', type: 'text', comment: '첨부파일 이름' })
-  file: string;
+  file!: string;
 
   @Column({
     name: 'FILE_REGIST_AT',
@@ -47,7 +47,7 @@ export class Board {
     default: () => 'CURRENT_TIMESTAMP',
     comment: '파일 등록 일자',
   })
-  file_registAt: Date;
+  file_registAt!: Date;
 
   @Column({
     name: 'REGIST_AT',
@@ -55,7 +55,7 @@ export class Board {
     default: () => 'CURRENT_TIMESTAMP',
     comment: '등록 일자',
   })
-  registAt: Date;
+  registAt!: Date;
 
   @Column({
     name: 'UPDATE_AT',
@@ -63,7 +63,7 @@ export class Board {
     default: () => 'CURRENT_TIMESTAMP',
     comment: '수정 일자',
   })
-  updateAt: Date;
+  updateAt!: Date;
 
   @ManyToOne(() => User, (user) => user.boards, {
     nullable: true,
@@ -72,8 +72,8 @@ export class Board {
     // lazy: true,
   })
   @JoinColumn({ name: 'writer_id', referencedColumnName: 'uuid' })
-  writer: User;
+  writer!: User;
 
   @RelationId((board: Board) => board.writer)
-  writerId: number;
+  writerId!: number;
 }

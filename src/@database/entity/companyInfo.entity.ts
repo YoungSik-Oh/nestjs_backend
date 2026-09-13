@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity({ name: 'COMPANY_INFO' })
 export class CompanyInfo {
   @PrimaryGeneratedColumn('uuid', { name: 'UUID' })
-  uuid: string;
+  uuid!: string;
 
   @Column({
     name: 'name',
@@ -12,7 +12,7 @@ export class CompanyInfo {
     length: 10,
     comment: '사업자 명',
   })
-  name: string;
+  name!: string;
 
   @Column({
     name: 'CEO',
@@ -21,7 +21,7 @@ export class CompanyInfo {
     length: 10,
     comment: '대표명',
   })
-  ceo: string;
+  ceo!: string;
 
   @Column({
     name: 'EMAIL',
@@ -30,7 +30,7 @@ export class CompanyInfo {
     length: 30,
     comment: '이메일',
   })
-  email: string;
+  email!: string;
 
   @Column({
     name: 'COMPANY_REG_NO',
@@ -39,7 +39,7 @@ export class CompanyInfo {
     length: 50,
     comment: '사업자등록번호',
   })
-  company_reg_no: string;
+  company_reg_no!: string;
 
   @Column({
     name: 'COMPANY_ADDRESS',
@@ -47,5 +47,5 @@ export class CompanyInfo {
     nullable: false,
     comment: '사업자주소',
   })
-  company_address: string;
+  company_address!: string;
 }

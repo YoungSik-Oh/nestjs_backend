@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { MulterOptionsFactory } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
+import { Request } from 'express';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { extname, sep } from 'path';
 import { existsSync, mkdirSync } from 'fs';
@@ -29,7 +30,11 @@ export class MulterConfig implements MulterOptionsFactory {
 
   constructor(private readonly config: ConfigService) {}
   createMulterOptions(): MulterOptions | Promise<MulterOptions> {
-    const fileFilter = (request, file, callback) => {
+    const fileFilter = (
+      request: Request,
+      file: Express.Multer.File,
+      callback: (error: Error | null, acceptFile: boolean) => void,
+    ) => {
       callback(null, true);
       // if (file.mimetype.match(/\/(jpg|jpeg|png|plain|document)$/)) {
       //   // 이미지 형식은 jpg, jpeg, png만 허용합니다.

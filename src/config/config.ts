@@ -5,7 +5,7 @@ export default () => {
 
   return {
     server: {
-      port: parseInt(process.env.PORT, 10) || 3010,
+      port: parseInt(process.env.PORT ?? '', 10) || 3010,
     },
     logger: {
       filename: APP_NAME,
@@ -14,7 +14,7 @@ export default () => {
     database: {
       type: 'postgres',
       host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT, 10) || 5432,
+      port: parseInt(process.env.DB_PORT ?? '', 10) || 5432,
       username: process.env.DB_USERNAME,
       password: process.env.DB_PASSWORD,
       database: process.env.DB_DATABASE,

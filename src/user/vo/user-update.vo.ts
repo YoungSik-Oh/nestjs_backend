@@ -17,12 +17,12 @@ export class UserUpdateVo {
     /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i,
   )
   @IsOptional()
-  readonly email: string;
+  readonly email?: string;
 
   @IsString()
   @MaxLength(20)
   @IsOptional()
-  phone: string;
+  phone?: string;
 
   @IsString()
   @MaxLength(20)

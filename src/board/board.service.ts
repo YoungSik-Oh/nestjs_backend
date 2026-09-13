@@ -47,7 +47,7 @@ export class BoardService {
 
   async insertBoard(
     registData: BoardRegistVo,
-    files: Express.Multer.File[],
+    files?: Express.Multer.File[],
   ): Promise<any> {
     const { category, contents, title, writerID } = registData;
 
@@ -73,7 +73,7 @@ export class BoardService {
       contents: contents,
       title: title,
       registAt: new Date().toJSON(),
-      writer: writerID,
+      writer: { uuid: writerID },
       hit: 0,
       file: orginName,
       file_registAt: new Date().toJSON(),

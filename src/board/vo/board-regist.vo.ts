@@ -4,14 +4,14 @@ import { BaordCategory } from 'src/@database/entity/board.entity';
 export class BoardRegistVo {
   @IsString()
   @MaxLength(30)
-  category: BaordCategory;
+  category!: BaordCategory;
 
   @IsString()
-  title: string;
+  title!: string;
 
   @IsString()
-  contents: string;
+  contents!: string;
 
   @IsString()
-  writerID: any;
+  writerID!: string;
 }
