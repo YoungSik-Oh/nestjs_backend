@@ -1,0 +1,13 @@
+node_modules
+dist
+logs
+coverage
+public
+.git
+.env
+.env.*
+*.md
+Dockerfile
+docker-compose.yml
+.eslintrc.js
+.prettierrc
