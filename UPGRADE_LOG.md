@@ -90,3 +90,11 @@
 - nest-winston·nestjs-typeorm-paginate는 기존 범위 내 최신 해석으로 Nest 10 peer 충족.
 - 코드 수정 필요 없었음. TypeScript 4.9.5 유지 (Phase 5에서 5.x 예정).
 - 게이트: lint ✅(0 errors) / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD ✅.
+
+## Phase 5 — Node.js 24 + TypeScript 5 (2026-09-13)
+
+- `.nvmrc`(24), `engines.node >=24` 추가. TypeScript 5.9.3, @types/node 24.
+- tsconfig `target: ES2023` (strict는 Phase 10 예정대로 아직 끔).
+- ts-jest 28 유지 (peer `typescript >=4.3`이라 TS5 허용, 테스트 기준선 동일 확인) — jest 29 업그레이드는 필요 시 별도.
+- TS 4.x에서 나오던 nest build 시 deprecated API 경고 사라짐.
+- 게이트: node v24.15.0 / install ✅ / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD ✅.
