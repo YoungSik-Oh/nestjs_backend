@@ -195,3 +195,27 @@
 - `docker-compose.yml` — app + postgres:17-alpine, pg healthcheck 후 app 기동(depends_on condition), named volume(pgdata), 환경변수는 호스트 .env 보간(기본값 내장).
 - Migration은 컨테이너 밖(호스트)에서 `npm run migration:run`으로 실행하는 구조 (CLI DataSource가 ts 소스 기준).
 - 게이트: 두 컨테이너 running ✅ / `whoami`=node ✅ / migration 2건 실행 ✅ / GET /health 200 ✅ / 컨테이너 앱으로 User C·R·D ✅.
+
+## Phase 15 — GitHub Actions (2026-09-13)
+
+- `.github/workflows/ci.yml` — push(main, upgrade/v2)/PR 시 Node 24에서 `npm ci → lint → build → test`.
+- 각 단계는 로컬에서 전부 통과 확인. **실제 PR 트리거 확인은 원격 push 후 가능** (push는 사용자 결정 대기).
+
+## Phase 16 — README + Boilerplate v2.0 종료 (2026-09-13)
+
+- README 전면 재작성 — 계획서의 14개 섹션(소개/스택/구조/실행/환경변수/PostgreSQL·Migration/Logging/Validation·Exception/Test/Docker/CI/설계 판단/Upgrade 기록/넣지 않은 것) 모두 포함.
+
+### v2.0 최종 게이트 (2026-09-13)
+
+```text
+npm run lint            ✅ 0 errors 0 warnings
+npm run build           ✅
+npm test                ✅ 9 suites / 19 tests
+docker compose up -d    ✅ app + postgres running
+npm run migration:run   ✅ (No migrations are pending)
+GET /health             ✅ 200 {"status":"ok"}
+```
+
+최종 체크리스트: Node 24 ✅ / NestJS 11 ✅ / 12 검토 완료(보류) ✅ / TS 5 + strict ✅ / TypeORM 1.x ✅ / PostgreSQL ✅ / Config Validation ✅ / Domain Module ✅ / DTO ✅ / Migration ✅ / Health ✅ / Exception Filter ✅ / Logging ✅ / Test ✅ / Docker ✅ / GitHub Actions ✅(원격 검증 대기) / README ✅
+
+**→ Boilerplate v2.0 작업 종료. 다음: Phase 17 (발주·재고 관리 프로젝트, 새 Repository).**
