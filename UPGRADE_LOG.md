@@ -68,3 +68,17 @@
 - Config: js-yaml로 dev.yml/prod.yml 로드 → `ConfigModule.forRoot({ load })`.
 - Logger: winston-daily-rotate-file 기반 FileConsoleLogger(ConsoleLogger 상속), FileQueryLogger(TypeORM 쿼리 로그 파일 기록).
 - Interceptor: AccessLogInterceptor — 요청 헤더 + 응답 전문을 로그로 남김.
+
+## Phase 2 — Secret 제거 + Config 1차 정리 (2026-09-13)
+
+- dev.yml/prod.yml 삭제, config.ts를 process.env 기반으로 재작성 (config key 구조는 그대로 유지해 소비 코드 무변경).
+- `.env`(gitignore) / `.env.example` 추가. js-yaml 의존성 제거.
+- 검증: build ✅ / .env 기반 실행 + User CRUD ✅ / test 기준선 동일(2 pass, 5 fail — 기존 jest 문제).
+
+## Phase 3 — NestJS 8 → 9 (2026-09-13)
+
+- @nestjs/{common,core,platform-express,cli,schematics,testing} → 9.4.3 (일괄 업그레이드로 peer 충돌 해소, node_modules/lockfile 클린 재설치).
+- TypeScript는 기존 `^4.3.5` 범위 내에서 4.9.5로 해석됨 (@nestjs/cli 9 요구사항).
+- 코드 수정 필요 없었음 — 기존 코드가 NestJS 9 API와 호환.
+- 발견: `npm run lint`가 `--fix` 포함이라 전체 파일의 EOL을 LF로 재작성함(콘텐츠 변경 없음, git diff 비어 있음) → 원복. Phase 6에서 lint/lint:fix 분리 예정.
+- 게이트: lint ✅(0 errors, 13 warnings-기존) / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD·Board 목록 ✅.
