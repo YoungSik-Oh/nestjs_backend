@@ -178,3 +178,12 @@
 - **Migration**: `synchronize: false` 유지. generate/run/revert 모두 동작 확인 (revert가 실제 스키마 롤백함을 psql로 확인).
 - **Logging 정책 결정: A 변형** — NestJS ConsoleLogger 상속(stdout 출력 유지) + winston-daily-rotate-file 파일 로깅(`logs/{env}/console`, 쿼리는 별도 파일). Docker 환경에서는 stdout이 수집 대상이고, 파일 로그는 로컬 개발 보조용.
 - 게이트: ENV 누락 시 "환경변수 검증 실패" 메시지와 함께 시작 실패 ✅ / 정상 ENV 시작 ✅ / ValidationPipe 400(+forbidNonWhitelisted) ✅ / 404·400 응답 형식 통일 ✅ / GET /health 200 ✅ / migration generate·run·revert ✅ / **test 8/8** ✅.
+
+## Phase 13 — Test 정비 (2026-09-13)
+
+- `users.service.spec.ts` — repository mock 기반 행위 테스트: Create(비밀번호 해시 검증), Find, Update(전달 필드 반영·재조회), 존재하지 않는 User(NotFoundException, find/update 모두), Delete.
+- `env.validation.spec.ts` — 유효 ENV 통과, 선택 필드 생략 허용, DB_HOST 누락/DB_PORT 비숫자/NODE_ENV 허용 외 값 실패 (5 케이스). 단독 실행 컨텍스트를 위해 `reflect-metadata` import 필요했음.
+- `test/health.e2e-spec.ts` — HealthModule만 로드하는 DB 무관 e2e, `GET /health` 200 `{status:'ok'}`.
+- 기존 `app.e2e-spec.ts`에 `app.close()` teardown 추가 (worker 누수 경고 해결).
+- 참고: ts-jest 28이 TS 5.9 미검증 경고를 출력하나 전 테스트 정상 동작. jest 29 업그레이드는 필요 시 별도.
+- 게이트: **unit 9 suites / 19 tests 전부 통과** ✅ / e2e 2/2 (app e2e는 PostgreSQL 필요) ✅ / lint 0 errors 0 warnings ✅ / build ✅.
