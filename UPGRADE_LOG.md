@@ -187,3 +187,11 @@
 - 기존 `app.e2e-spec.ts`에 `app.close()` teardown 추가 (worker 누수 경고 해결).
 - 참고: ts-jest 28이 TS 5.9 미검증 경고를 출력하나 전 테스트 정상 동작. jest 29 업그레이드는 필요 시 별도.
 - 게이트: **unit 9 suites / 19 tests 전부 통과** ✅ / e2e 2/2 (app e2e는 PostgreSQL 필요) ✅ / lint 0 errors 0 warnings ✅ / build ✅.
+
+## Phase 14 — Docker (2026-09-13)
+
+- `Dockerfile` — node:24-alpine 3-stage (deps → build+prune → production). production은 dist + prod 의존성만, `USER node`(non-root), 로그 디렉터리 사전 생성.
+- `.dockerignore` — node_modules/dist/logs/.env/.git 등 제외.
+- `docker-compose.yml` — app + postgres:17-alpine, pg healthcheck 후 app 기동(depends_on condition), named volume(pgdata), 환경변수는 호스트 .env 보간(기본값 내장).
+- Migration은 컨테이너 밖(호스트)에서 `npm run migration:run`으로 실행하는 구조 (CLI DataSource가 ts 소스 기준).
+- 게이트: 두 컨테이너 running ✅ / `whoami`=node ✅ / migration 2건 실행 ✅ / GET /health 200 ✅ / 컨테이너 앱으로 User C·R·D ✅.
