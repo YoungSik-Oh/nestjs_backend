@@ -124,3 +124,11 @@
 2. 12.0.1은 메이저 초기 릴리스로 생태계 추종이 아직 안 됨.
 
 → 두 패키지가 Nest 12 지원을 추가하면 재검토. CommonJS 유지 중이므로 추후 전환 부담 낮음.
+
+## Phase 8 — TypeORM 0.3 → 1.x (2026-09-13)
+
+- typeorm 0.3.31 → **1.1.1**, mysql2 2.x → 3.24.4 (typeorm 1.x peer 요구). @nestjs/typeorm 11.0.3의 peer(`^0.3.0 || ^1.0.0-dev`)가 1.1.1 허용.
+- **nestjs-typeorm-paginate 제거** — typeorm `^0.3.0` peer만 허용해 1.x와 충돌. `src/common/pagination.ts`에 `findAndCount` 기반 헬퍼로 대체, 응답 형태(`{ items, meta }`)는 기존과 동일하게 유지해 API Regression 없음.
+- `config.multer.ts`의 `uuid` import가 깨짐 — typeorm 0.3의 transitive 의존성이었음(기존 문제 5-1). Node 내장 `crypto.randomUUID()`로 교체해 의존성 자체를 제거.
+- 기존 Repository API(find/findOneOrFail/findOneByOrFail/save/update/remove)와 Entity 데코레이터는 1.x에서 수정 없이 동작.
+- 게이트: lint ✅(0 errors) / build ✅ / test 기준선 동일 ✅ / MySQL 실행 — User CRUD ✅, Board 생성·상세(Relation `writerId` 정상, hit 증가) ✅, pagination(totalItems/totalPages 정상) ✅, 404 처리 ✅ / `typeorm` CLI 1.1.1 실행 가능 ✅.

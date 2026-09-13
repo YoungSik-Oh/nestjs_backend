@@ -1,10 +1,6 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
+import { PaginationOptions, paginate, Pagination } from 'src/common/pagination';
 import * as bcrypt from 'bcryptjs';
 import { User } from 'src/@database/entity/user.entity';
 import { Repository } from 'typeorm';
@@ -20,7 +16,7 @@ export class UserService {
     @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
-  async getAllUsers(pagination: IPaginationOptions): Promise<Pagination<User>> {
+  async getAllUsers(pagination: PaginationOptions): Promise<Pagination<User>> {
     return paginate<User>(this.userRepository, pagination, {});
   }
 

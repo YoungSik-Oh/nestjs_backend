@@ -5,7 +5,7 @@ import { diskStorage } from 'multer';
 import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
 import { extname, sep } from 'path';
 import { existsSync, mkdirSync } from 'fs';
-import { v4 as uuid } from 'uuid';
+import { randomUUID } from 'crypto';
 
 type Limits = {
   /** Max field name size (Default: 100 bytes) */
@@ -54,7 +54,7 @@ export class MulterConfig implements MulterOptionsFactory {
       filename: (request, file, callback) => {
         callback(
           null,
-          `${uuid()}${extname(file.originalname).toLocaleLowerCase()}`,
+          `${randomUUID()}${extname(file.originalname).toLocaleLowerCase()}`,
         );
       },
     });

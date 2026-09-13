@@ -5,11 +5,7 @@ import {
   UnsupportedMediaTypeException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import {
-  IPaginationOptions,
-  paginate,
-  Pagination,
-} from 'nestjs-typeorm-paginate';
+import { PaginationOptions, paginate, Pagination } from 'src/common/pagination';
 import { Board, BaordCategory } from 'src/@database/entity/board.entity';
 import { Repository } from 'typeorm';
 import { BoardRegistVo } from './vo/board-regist.vo';
@@ -23,7 +19,7 @@ export class BoardService {
   ) {}
 
   async getAllBoard(
-    pagination: IPaginationOptions,
+    pagination: PaginationOptions,
     ctgy: BaordCategory,
   ): Promise<Pagination<Board>> {
     return paginate<Board>(this.boardRepository, pagination, {
