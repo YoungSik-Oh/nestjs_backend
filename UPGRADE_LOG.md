@@ -199,7 +199,7 @@
 ## Phase 15 — GitHub Actions (2026-09-13)
 
 - `.github/workflows/ci.yml` — push(main, upgrade/v2)/PR 시 Node 24에서 `npm ci → lint → build → test`.
-- 각 단계는 로컬에서 전부 통과 확인. **실제 PR 트리거 확인은 원격 push 후 가능** (push는 사용자 결정 대기).
+- PR #1(upgrade/v2 → main) 생성 및 main Merge 이후 **GitHub Actions 실제 원격 실행 확인 완료 ✅** (push·PR 트리거 모두 통과, npm ci/lint/build/test 전 단계 성공).
 
 ## Phase 16 — README + Boilerplate v2.0 종료 (2026-09-13)
 
@@ -216,6 +216,13 @@ npm run migration:run   ✅ (No migrations are pending)
 GET /health             ✅ 200 {"status":"ok"}
 ```
 
-최종 체크리스트: Node 24 ✅ / NestJS 11 ✅ / 12 검토 완료(보류) ✅ / TS 5 + strict ✅ / TypeORM 1.x ✅ / PostgreSQL ✅ / Config Validation ✅ / Domain Module ✅ / DTO ✅ / Migration ✅ / Health ✅ / Exception Filter ✅ / Logging ✅ / Test ✅ / Docker ✅ / GitHub Actions ✅(원격 검증 대기) / README ✅
+최종 체크리스트: Node 24 ✅ / NestJS 11 ✅ / 12 검토 완료(보류) ✅ / TS 5 + strict ✅ / TypeORM 1.x ✅ / PostgreSQL ✅ / Config Validation ✅ / Domain Module ✅ / DTO ✅ / Migration ✅ / Health ✅ / Exception Filter ✅ / Logging ✅ / Test ✅ / Docker ✅ / GitHub Actions ✅ / README ✅
+
+## 마무리 점검 (2026-09-13, PR #1 Merge 이후)
+
+- **Git History Secret 정리 완료** — git filter-repo `--replace-text`로 전체 히스토리(31 커밋, main·upgrade/v2·feature/* 4개 브랜치)에서 DB 비밀번호를 `***REMOVED***`로 치환 후 force push. Merge 이후 재검증: `git log --all -S`, 전체 blob grep 모두 0건. (파일 삭제 방식 대신 문자열 치환 방식 사용 — yml 파일 자체는 히스토리에 남되 Secret만 제거)
+- **start:prod 수정** — `nest start --watch` → `node dist/main.js` (Dockerfile CMD와 동일한 실행 방식으로 통일, 기존 문제 3 해결).
+- **@types/multer** — dependencies → devDependencies 이동 (기존 문제 5 마무리).
+- **v2.0.0 태그** — 마무리 커밋 이후 생성.
 
 **→ Boilerplate v2.0 작업 종료. 다음: Phase 17 (발주·재고 관리 프로젝트, 새 Repository).**
