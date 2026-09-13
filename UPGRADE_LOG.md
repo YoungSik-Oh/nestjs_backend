@@ -82,3 +82,11 @@
 - 코드 수정 필요 없었음 — 기존 코드가 NestJS 9 API와 호환.
 - 발견: `npm run lint`가 `--fix` 포함이라 전체 파일의 EOL을 LF로 재작성함(콘텐츠 변경 없음, git diff 비어 있음) → 원복. Phase 6에서 lint/lint:fix 분리 예정.
 - 게이트: lint ✅(0 errors, 13 warnings-기존) / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD·Board 목록 ✅.
+
+## Phase 4 — NestJS 9 → 10 (2026-09-13)
+
+- @nestjs/{common,core,platform-express} 10.4.22, @nestjs/cli·schematics·testing 10.x.
+- 생태계 동반 업그레이드: @nestjs/config 2→3.3.0, @nestjs/typeorm 9→10.0.2, @nestjs/mapped-types 1→2.1.1.
+- nest-winston·nestjs-typeorm-paginate는 기존 범위 내 최신 해석으로 Nest 10 peer 충족.
+- 코드 수정 필요 없었음. TypeScript 4.9.5 유지 (Phase 5에서 5.x 예정).
+- 게이트: lint ✅(0 errors) / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD ✅.
