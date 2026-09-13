@@ -154,3 +154,17 @@
   - `companyinfo.service` 마지막 조회 `findOne` → `findOneOrFail` (null 반환 타입 해소).
   - `@types/bcryptjs` 추가.
 - 게이트: `tsc --noEmit` 0 errors ✅ / lint 0 errors ✅ / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD·Board Relation 쓰기 ✅.
+
+## Phase 11 — Project 구조 현대화 (2026-09-13)
+
+- 구조 전환: `@database/entity` 중앙 집중 → Domain Module 구조.
+  - `src/modules/{users,boards,company-info}/` — 각각 entities/, dto/, controller/service/module/spec.
+  - `src/common/{interceptors,logger}/` (kebab-case 파일명), `src/common/pagination.ts` 유지.
+  - `src/database/{typeorm.config.ts, database.config.ts, migrations/}`.
+  - Global DatabaseModule 삭제 — 각 모듈이 `TypeOrmModule.forFeature([...])` 직접 선언.
+- VO → DTO: `user-regist.vo` → `create-user.dto` 등. `UpdateUserDto`는 명시적 optional 필드로 재작성.
+- Naming 정리: `fildOneUser`→`findOneUser`, `BaordCategory`→`BoardCategory`, `hitadd`→`increaseHit`, `orginName`→`originalName`, 클래스 복수형(UsersService 등). `writerId` 타입 number→string 정정. Controller 라우트 경로는 기존 그대로 유지(`user`, `board`, `companyinfo`) → API Regression 없음.
+- 날짜: 수동 `registAt`/`updateAt` + `new Date().toJSON()` → `@CreateDateColumn`/`@UpdateDateColumn` (timestamptz). `DomainRestructure` 마이그레이션으로 컬럼 교체(REGIST_AT/UPDATE_AT 드롭 → createdAt/updatedAt 추가).
+- 기존 버그 수정: companyinfo update의 `{...savedData, data}` → `...updateCompanyInfoDto` 스프레드(기존 문제 6), DTO `COMPANY_ADDRESS`→`company_address`(entity와 정합), 미사용 `import e from 'express'` 제거. Board `updateBoard`는 원본대로 조회만 수행(미구현 상태 유지, 기능 추가는 스코프 밖).
+- 모듈 내 import를 상대 경로로 통일 → jest의 `src/` 절대 경로 해석 문제(기존 문제 1)가 해소되어 **테스트 7/7 통과** (spec에 DI mock 추가).
+- 게이트: lint 0 errors 0 warnings ✅ / build ✅ / **test 7/7** ✅ / migration 실행 ✅ / 실행 — CRUD·Relation·createdAt/updatedAt 자동 갱신 ✅.

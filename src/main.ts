@@ -2,8 +2,8 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { AccessLogInterceptor } from './interceptor/access_log_interceptor';
-import { FileConsoleLogger } from './logger/file_console_logger';
+import { AccessLogInterceptor } from './common/interceptors/access-log.interceptor';
+import { FileConsoleLogger } from './common/logger/file-console.logger';
 
 async function bootstrap() {
   const logger = new Logger('bootstrap');
