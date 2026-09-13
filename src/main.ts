@@ -2,6 +2,7 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import { GlobalExceptionFilter } from './common/filters/http-exception.filter';
 import { AccessLogInterceptor } from './common/interceptors/access-log.interceptor';
 import { FileConsoleLogger } from './common/logger/file-console.logger';
 
@@ -12,6 +13,7 @@ async function bootstrap() {
   const port = config.get('server.port');
 
   app.useGlobalInterceptors(new AccessLogInterceptor());
+  app.useGlobalFilters(new GlobalExceptionFilter());
 
   app.enableCors({
     origin: true,

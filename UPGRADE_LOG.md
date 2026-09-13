@@ -168,3 +168,13 @@
 - 기존 버그 수정: companyinfo update의 `{...savedData, data}` → `...updateCompanyInfoDto` 스프레드(기존 문제 6), DTO `COMPANY_ADDRESS`→`company_address`(entity와 정합), 미사용 `import e from 'express'` 제거. Board `updateBoard`는 원본대로 조회만 수행(미구현 상태 유지, 기능 추가는 스코프 밖).
 - 모듈 내 import를 상대 경로로 통일 → jest의 `src/` 절대 경로 해석 문제(기존 문제 1)가 해소되어 **테스트 7/7 통과** (spec에 DI mock 추가).
 - 게이트: lint 0 errors 0 warnings ✅ / build ✅ / **test 7/7** ✅ / migration 실행 ✅ / 실행 — CRUD·Relation·createdAt/updatedAt 자동 갱신 ✅.
+
+## Phase 12 — Backend 공통 기반 완성 (2026-09-13)
+
+- **Config Validation**: `src/config/env.validation.ts` — class-validator 기반 `validate` 함수를 `ConfigModule.forRoot`에 연결. DB_* 필수, NODE_ENV/PORT 선택.
+- **Global Exception Filter**: `src/common/filters/http-exception.filter.ts` — 모든 예외를 `{ statusCode, message, error, timestamp, path }`로 통일. 비-HttpException은 500 + 스택 로깅.
+- **Health**: `GET /health` → `{ "status": "ok" }` (`src/health/`).
+- **ValidationPipe**: 기존 전역 설정 유지 (whitelist, forbidNonWhitelisted, transform).
+- **Migration**: `synchronize: false` 유지. generate/run/revert 모두 동작 확인 (revert가 실제 스키마 롤백함을 psql로 확인).
+- **Logging 정책 결정: A 변형** — NestJS ConsoleLogger 상속(stdout 출력 유지) + winston-daily-rotate-file 파일 로깅(`logs/{env}/console`, 쿼리는 별도 파일). Docker 환경에서는 stdout이 수집 대상이고, 파일 로그는 로컬 개발 보조용.
+- 게이트: ENV 누락 시 "환경변수 검증 실패" 메시지와 함께 시작 실패 ✅ / 정상 ENV 시작 ✅ / ValidationPipe 400(+forbidNonWhitelisted) ✅ / 404·400 응답 형식 통일 ✅ / GET /health 200 ✅ / migration generate·run·revert ✅ / **test 8/8** ✅.
