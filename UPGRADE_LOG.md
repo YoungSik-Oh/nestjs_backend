@@ -106,3 +106,21 @@
 - reflect-metadata 0.1.14 유지 (Nest 11 peer가 ^0.1.12 허용).
 - 코드 수정 필요 없었음 — 단순 `:param` 라우트라 Express 5 라우팅 변경 영향 없음.
 - 게이트: `npm run lint`가 파일 미수정 ✅ / lint 0 errors ✅ / build ✅ / test 기준선 동일 ✅ / 실행 + User CRUD·Board ✅.
+
+## Phase 7 — NestJS 12 검토 (2026-09-13) → **11 유지, 12 보류**
+
+검토 시점 최신: @nestjs/core 12.0.1 (Node >= 20).
+
+| 패키지 | Nest 12 peer 지원 |
+|---|---|
+| @nestjs/typeorm 12.0.1 | ✅ (`^10 \|\| ^11 \|\| ^12`, typeorm `^0.3 \|\| ^1.0.0-dev`) |
+| @nestjs/config 12.0.0 | ✅ (`^11 \|\| ^12`) |
+| @nestjs/mapped-types 12.0.0 | ✅ |
+| nest-winston 1.10.2 | ❌ peer `^5 ~ ^11`까지만 |
+| nestjs-typeorm-paginate 최신 | ❌ peer `^5 ~ ^11`까지만 |
+
+**보류 이유:**
+1. nest-winston, nestjs-typeorm-paginate가 `@nestjs/common ^12`를 peer로 허용하지 않아 의존성 충돌 없이 설치 불가 (게이트 "Dependency conflict 없음" 위반).
+2. 12.0.1은 메이저 초기 릴리스로 생태계 추종이 아직 안 됨.
+
+→ 두 패키지가 Nest 12 지원을 추가하면 재검토. CommonJS 유지 중이므로 추후 전환 부담 낮음.
