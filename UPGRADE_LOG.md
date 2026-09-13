@@ -132,3 +132,12 @@
 - `config.multer.ts`의 `uuid` import가 깨짐 — typeorm 0.3의 transitive 의존성이었음(기존 문제 5-1). Node 내장 `crypto.randomUUID()`로 교체해 의존성 자체를 제거.
 - 기존 Repository API(find/findOneOrFail/findOneByOrFail/save/update/remove)와 Entity 데코레이터는 1.x에서 수정 없이 동작.
 - 게이트: lint ✅(0 errors) / build ✅ / test 기준선 동일 ✅ / MySQL 실행 — User CRUD ✅, Board 생성·상세(Relation `writerId` 정상, hit 증가) ✅, pagination(totalItems/totalPages 정상) ✅, 404 처리 ✅ / `typeorm` CLI 1.1.1 실행 가능 ✅.
+
+## Phase 9 — MySQL → PostgreSQL 전환 (2026-09-13)
+
+- mysql2 제거, pg 8.23 설치. config `type: postgres`, 기본 포트 5432. `.env`/`.env.example` 갱신 (DB nestjs).
+- MySQL 종속 타입 정리: `datetime` → `timestamptz`, `longtext` → `text`, `bigint unsigned` → `bigint`.
+- PK를 `@PrimaryColumn + @Generated('uuid')` → `@PrimaryGeneratedColumn('uuid')`로 교체.
+  - 이유: MySQL에서는 uuid PK가 varchar(36)이라 varchar FK와 호환됐지만, PostgreSQL에서는 PK가 네이티브 `uuid` 타입이 되면서 relation FK 컬럼(varchar 추론)과 타입 불일치로 FK 생성 실패. 표준 데코레이터로 교체하니 `writer_id`도 `uuid`로 올바르게 생성됨.
+- Migration 체계 도입: `src/@database/typeorm.config.ts`(CLI 전용 DataSource, dotenv 직접 의존성 추가) + `migration:generate/run/revert` 스크립트. 초기 마이그레이션 `Init` 생성·실행 성공 (uuid-ossp 확장 자동 설치, `uuid_generate_v4()` default).
+- 게이트: 테이블 4개(USER/BOARD/COMPANY_INFO/migrations) 확인 ✅ / lint 0 errors ✅ / build ✅ / test 기준선 동일 ✅ / PostgreSQL 실행 — User C·R·U·D ✅, Relation(`writerId`) ✅, timestamptz 날짜 정상 반환 ✅, pagination ✅.

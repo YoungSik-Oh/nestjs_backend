@@ -1,12 +1,11 @@
-import { Column, Entity, Generated, OneToMany, PrimaryColumn } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Board } from './board.entity';
 
 @Entity({
   name: 'USER',
 })
 export class User {
-  @PrimaryColumn({ name: 'UUID' })
-  @Generated('uuid')
+  @PrimaryGeneratedColumn('uuid', { name: 'UUID' })
   uuid: string;
 
   @Column({
@@ -59,7 +58,7 @@ export class User {
 
   @Column({
     name: 'REGIST_AT',
-    type: 'datetime',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
     comment: '등록 일자',
   })
@@ -67,7 +66,7 @@ export class User {
 
   @Column({
     name: 'UPDATE_AT',
-    type: 'datetime',
+    type: 'timestamptz',
     default: () => 'CURRENT_TIMESTAMP',
     comment: '수정 일자',
   })

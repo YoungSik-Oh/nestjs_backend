@@ -1,9 +1,8 @@
-import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity({ name: 'COMPANY_INFO' })
 export class CompanyInfo {
-  @PrimaryColumn({ name: 'UUID' })
-  @Generated('uuid')
+  @PrimaryGeneratedColumn('uuid', { name: 'UUID' })
   uuid: string;
 
   @Column({
@@ -44,7 +43,7 @@ export class CompanyInfo {
 
   @Column({
     name: 'COMPANY_ADDRESS',
-    type: 'longtext',
+    type: 'text',
     nullable: false,
     comment: '사업자주소',
   })
