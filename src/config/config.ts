@@ -1,14 +1,33 @@
-import { readFileSync } from 'fs';
-import * as yaml from 'js-yaml';
-import { join } from 'path';
-
-const YML_CONFIG_DEV = 'dev.yml';
-const YML_CONFIG_PROD = 'prod.yml';
+const APP_NAME = 'someone';
 
 export default () => {
-  return yaml.load(
-    process.env.NODE_ENV === 'dev'
-      ? readFileSync(join(__dirname, YML_CONFIG_DEV), 'utf-8')
-      : readFileSync(join(__dirname, YML_CONFIG_PROD), 'utf-8'),
-  );
+  const env = process.env.NODE_ENV === 'prod' ? 'prod' : 'dev';
+
+  return {
+    server: {
+      port: parseInt(process.env.PORT, 10) || 3010,
+    },
+    logger: {
+      filename: APP_NAME,
+      dirname: `/logs/${env}/console`,
+    },
+    database: {
+      type: 'mysql',
+      host: process.env.DB_HOST || 'localhost',
+      port: parseInt(process.env.DB_PORT, 10) || 3306,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_DATABASE,
+      synchronize: false,
+      logging: true,
+      logger: {
+        filename: APP_NAME,
+        dirname: `/logs/${env}/query`,
+      },
+    },
+    resource: {
+      savePath: '/public',
+      baseUrl: '/public',
+    },
+  };
 };
